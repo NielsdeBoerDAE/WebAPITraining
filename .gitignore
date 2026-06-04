@@ -1,0 +1,11 @@
+AppHtml/CssThemes/
+AppHtml/Images/
+AppHtml/WebUI/
+AppSrc/WebApp.exe.manifest
+AppSrc/WebApp.x64.dep
+AppSrc/WebApp.x64.prn
+DfPkg/
+IdeSrc/
+Programs/WebApp.dbg
+Programs/WebApp.exe
+Programs/WebApp.log
