@@ -91,6 +91,8 @@ Steps:
 - Log the status code.
 - Add any other useful request information you want.
 
+Tip, remember to use the Pre and Post events supplied with this class.
+
 ## Assignment 5: Implement Basic Auth
 
 Goal: add authentication and simple authorization.
