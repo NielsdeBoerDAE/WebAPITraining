@@ -7,7 +7,7 @@ This README lists all the assignments for the Web API Framework training. For th
 Goal: set up first Web API endpoints.
 
 Steps:
-- Set up your cWebApi (File -> New -> S).
+- Set up your cWebApi (File -> New -> Server / Service objects).
 - Add two endpoints.
 - Use two separate `cRestDataset` objects.
 - Put each endpoint in its own `cWebApiRouter`.
@@ -42,6 +42,41 @@ Steps:
 Bonus:
 - Try to get file upload working in `OnHttpPost`.
 - Store uploaded file data in `data/uploads`.
+
+Information about OnDefineSchema:
+
+The `tEndpointDefinition` holds a `tVerbDefinition` array. You can define as many of these as you want inside of the `tEndpointDefinition`. For the steps described above we would only need 1. Maybe 2 if you also intend to do the bonus step.
+
+The `tVerbDefinition` actually describes what your verb is supposed to do by specifying the following
+- The sVerb should be GET, POST, PUT, PATCH or DELETE
+- sDescription specifies the description that will be shown inside of the documentation
+- tResponseDefinition will hold what the response will be
+- asRequestMediaTypes is only needed for POST, PUT and PATCH. It specifies what media types we acccept, such as application/json, application/xml.
+- tFieldDefinition will hold the fields we expect the caller to pass in the request body. This is only needed for POST, PUT and PATCH.
+- tParameterDefinition defines the information about our parameters, these can either be parameters passed in the header or in the query. For the first step you will need a query parameter.
+
+The `tFieldDefinition` holds the information of a field. Both request and responses make use of this definition.
+- the sFieldName is the actual name of the field shown in the documentation
+- the sExampleValue is what will be shown to the user when viewing a POST, PUT and PATCH request in the documentation. They are like dummy values.
+- eFieldType specifies the actual type of the field. You can check the enumlist in the struct to see what is available.
+- bRequired marks this field as required inside of the specification
+- the nestedField members are important for when you want to specify something like a json response. You would make a tFieldDefinition that is of eFieldType WEBAPI_OBJECT_FIELD, and then the nested fields can be the JSON members that should be inside of this JSON object. For example, the nested field in the steps listed above would be a tFieldDefinition with eFieldType set to WEBAPI_STRING_FIELD and sFieldName set to "message"!
+
+The `tResponseDefinition` holds the response information. One verb can hold multiple tResponseDefinitions, this is because a endpoint can return multiple results. For example it can return a status code 200 OK when everything went right. But it could also return a error code like 404, 403 FORBIDDEN.
+- iStatusCode determines the status code that will be shown inside of the swagger documentation. You can find information about the status codes here: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status#successful_responses
+- sStatusCodeDescription is a description for the status code, usually you match this with what is shown in the specification above. For example, if your iStatusCode is 200, your sStatusCodeDescription would often be something like "OK".
+- asResponseMediaTypes holds a list of media types this request could return, for example application/json, application/xml. For the steps above we would only need application/json.
+- responseFields will determine what the actual response will look like in the documentation. This works in a similar way as to how it works for the tFieldDefinition struct shown above.
+
+The `tParamaterDefinition` holds the information about all parameters that can be send with the request. This can either be query parameters (so inside of the URL), or header parameters passed as a header during the call.
+- sName describes the name of the parameter.
+- sDescription holds a short description of what the parameter is about.
+- eParameterIn determines where the parameter will be located, this can either be WEBAPI_QUERY_PARAMETER to have it be in the query (which is what we will need for the steps provided in the assignment) or a WEBAPI_HEADER_PARAMETER.
+- eParameterType determines the type of the parameter such as a string, integer, number, etc. You can find the available values in the enum list.
+- bRequired determines if the parameter should be required.
+
+
+
 
 ## Assignment 4: Implement Logging
 
